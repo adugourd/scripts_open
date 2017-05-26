@@ -21,7 +21,7 @@ library(ggplot2)
 #consensus = consensus table of piano analisys (with column X as term column)
 #outpath = path to the directory were the figures will be stored
 #mt = mapping table between the identifiers of limma analisys and gene to term table
-volcano_nice <- function(df,hAss,vAss,FCIndex,pValIndex,IDIndex){
+volcano_nice <- function(df,hAss,FCIndex,pValIndex,IDIndex,vAss = NULL){
   
   df <- df[complete.cases(df),]
   names(df)[1] <- "X1"
@@ -33,6 +33,11 @@ volcano_nice <- function(df,hAss,vAss,FCIndex,pValIndex,IDIndex){
   
   xlimAbs <- ceiling(max(abs(df[,FCIndex])))
   ylimAbs <- ceiling(max(abs(-log(df[,pValIndex]))))
+  
+  if (is.null(vAss))
+  {
+    vAss <- xlimAbs/10
+  }
   
   xneg <- function(x) abs(hAss-1+x/(x+vAss))
   xpos <- function(x) abs(hAss-1+x/(x-vAss))

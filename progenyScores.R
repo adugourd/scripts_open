@@ -31,5 +31,18 @@ progenyScores <- function(df, cm, dfIndex = 1, FCIndex = 3, cmIndex = 1) {
   return(progeny_scores)
 }
 
+progenyMatrixProduct <- function(df, cm, dfIndex = 1, FCIndex = 3, cmIndex = 1) {
+  names(df)[dfIndex] <- "X1"
+  names(cm)[cmIndex] <- "X1"
+  
+  merged <- merge(df[,c(dfIndex,FCIndex)],cm)
+  
+  for (pathway in names(cm[,-cmIndex]))
+  {
+    merged[,pathway] <- merged[,2]*merged[,pathway]
+  }
+  
+  return(merged[,c(1,3:length(merged[1,]))])
+}
 
 
